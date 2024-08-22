@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hangman"
+version = "0.1.0"
+authors = [
+    {name = "Ageev Maxim", email = "maksim170901@gmail.com"},
+]
+description = "Hangman game project"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[project.scripts]
+hangman-cli = "hangman.main.cli_app:main"
