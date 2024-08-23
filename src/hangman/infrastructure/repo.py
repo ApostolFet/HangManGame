@@ -1,4 +1,4 @@
-from hangman.application.repo import HangManRepository
+from hangman.application.interfaces.repo import HangManRepository
 from hangman.domain.entity import HangManGame
 
 

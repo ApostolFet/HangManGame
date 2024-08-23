@@ -1,8 +1,10 @@
 import random
 from pathlib import Path
 
+from hangman.application.interfaces.word_provider import WordProvider
 
-class FileWordProvider:
+
+class FileWordProvider(WordProvider):
     def __init__(self, file_path_words: Path):
         self._file_path_words = file_path_words
 

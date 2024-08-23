@@ -2,11 +2,10 @@ import sys
 import os
 
 
-_CURSOR_UP = "\x1b[A"
-_ERASE_LINE = "\x1b[K"
-
-
 def clear_line(n: int):
+    _CURSOR_UP = "\x1b[A"
+    _ERASE_LINE = "\x1b[K"
+
     for _ in range(n):
         sys.stdout.write(_CURSOR_UP)
         sys.stdout.write(_ERASE_LINE)
