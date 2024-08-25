@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from hangman.adapters.repo import InMemoryHangmanRepository
-from hangman.adapters.word_provider import FileWordProvider
+from hangman.infrastructure.repo import InMemoryHangmanRepository
+from hangman.infrastructure.word_provider import FileWordProvider
 from hangman.application.interactors import CreateGameInteractor, GuessLaterInteractor
 from hangman.config import Config
 from hangman.presentation.cli.controller import CliController

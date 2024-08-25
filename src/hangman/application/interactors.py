@@ -1,5 +1,5 @@
 from hangman.application.dto import CreateHangMan, GameStep
-from hangman.application.repo import HangManRepository
+from hangman.application.interfaces.repo import HangManRepository
 
 
 class GuessLaterInteractor:
