@@ -1,6 +1,6 @@
 from enum import Enum, auto
 
-from hangman.domain.exception import LetterAlredyGuessError
+from hangman.domain.exceptions import LetterAlredyGuessError
 
 
 class GameState(Enum):

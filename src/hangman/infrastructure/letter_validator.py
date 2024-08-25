@@ -1,7 +1,7 @@
 from collections.abc import Iterable
 
 from hangman.application.interfaces.letter_validator import LetterValidator
-from hangman.domain.exception import LetterInvalidError
+from hangman.domain.exceptions import LetterInvalidError
 
 
 class LenLetterValidator(LetterValidator):
