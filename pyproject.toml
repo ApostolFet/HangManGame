@@ -18,3 +18,8 @@ classifiers = [
 
 [project.scripts]
 hangman-cli = "hangman.main.cli_app:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest==8.3.2",
+]
