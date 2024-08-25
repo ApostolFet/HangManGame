@@ -64,6 +64,7 @@ class Game:
                 game_step = self._guess_later_interactor(user_id=1, letter=letter)
             except LetterError as ex:
                 self._controller.view_letter_error(ex.letter)
+                continue
 
             self._controller.view_game_step(game_step)
 
