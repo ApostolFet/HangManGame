@@ -7,7 +7,11 @@ from hangman.config import Config
 from hangman.presentation.cli.controller import CliController
 from hangman.presentation.cli.game import Game
 from hangman.presentation.cli.views_error import VIEW_ERRORS
-from hangman.presentation.core.localizations import EnLocalization, RuLocalization
+from hangman.presentation.core.localizations import (
+    EnLocalization,
+    InvalidConfigError,
+    RuLocalization,
+)
 
 
 def main():
@@ -24,6 +28,8 @@ def main():
             localization = EnLocalization(
                 max_error=config.max_errors, views_error=VIEW_ERRORS
             )
+        case unsupported_language:
+            raise InvalidConfigError(f"Unsupported language {unsupported_language}")
 
     repo = InMemoryHangmanRepository()
     controler = CliController(localization)

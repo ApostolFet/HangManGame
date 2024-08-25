@@ -25,7 +25,7 @@ class Localization(ABC):
         max_view_error = len(views_error)
         if max_view_error <= max_error:
             raise InvalidConfigError(
-                f"The maximum number of errors is greater than possible ({max_view_error - 1}) "
+                f"The maximum number of errors ({max_error}) is greater than possible ({max_view_error - 1}) "
             )
 
         self._views_error = views_error
