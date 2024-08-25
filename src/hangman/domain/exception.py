@@ -1,15 +1,15 @@
-class LatterError(Exception):
+class LetterError(Exception):
     def __init__(
         self,
         *args,
-        latter: str,
+        letter: str,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
-        self.latter = latter
+        self.letter = letter
 
 
-class LatterAlredyGuessError(LatterError): ...
+class LetterAlredyGuessError(LetterError): ...
 
 
-class LatterInvalidError(LatterError): ...
+class LetterInvalidError(LetterError): ...

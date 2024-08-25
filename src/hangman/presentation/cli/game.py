@@ -4,7 +4,7 @@ from hangman.application.dto import CreateHangMan, GameStep
 from hangman.application.interactors import CreateGameInteractor, GuessLaterInteractor
 from hangman.application.interfaces.word_provider import WordProvider
 from hangman.domain.entity import GameState
-from hangman.domain.exception import LatterError
+from hangman.domain.exception import LetterError
 
 
 class Controller(Protocol):
@@ -12,7 +12,7 @@ class Controller(Protocol):
     def get_play_again(self) -> bool: ...
     def view_greating(self) -> None: ...
     def view_game_step(self, game: GameStep) -> None: ...
-    def view_latter_error(self, latter: str): ...
+    def view_letter_error(self, letter: str): ...
     def view_end_game(self, game: GameStep) -> None: ...
     def view_goodbye(self) -> None: ...
 
@@ -62,8 +62,8 @@ class Game:
             letter = self._controller.get_letter()
             try:
                 game_step = self._guess_later_interactor(user_id=1, letter=letter)
-            except LatterError as ex:
-                self._controller.view_latter_error(ex.latter)
+            except LetterError as ex:
+                self._controller.view_letter_error(ex.letter)
 
             self._controller.view_game_step(game_step)
 

@@ -1,6 +1,6 @@
 from enum import Enum, auto
 
-from hangman.domain.exception import LatterAlredyGuessError, LatterInvalidError
+from hangman.domain.exception import LetterAlredyGuessError, LetterInvalidError
 
 
 class GameState(Enum):
@@ -60,18 +60,18 @@ class HangManGame:
 
         return state
 
-    def guess(self, latter: str) -> bool:
-        if len(latter) != 1:
-            raise LatterInvalidError(
-                f"String: '{latter}' is not valid latter",
-                latter=latter,
+    def guess(self, letter: str) -> bool:
+        if len(letter) != 1:
+            raise LetterInvalidError(
+                f"String: '{letter}' is not valid letter",
+                letter=letter,
             )
 
-        if latter in self._used_letters:
-            raise LatterAlredyGuessError(
-                f"Character: '{latter}' has already been used before",
-                latter=latter,
+        if letter in self._used_letters:
+            raise LetterAlredyGuessError(
+                f"Character: '{letter}' has already been used before",
+                letter=letter,
             )
 
-        self._used_letters.add(latter)
-        return latter in self._word
+        self._used_letters.add(letter)
+        return letter in self._word

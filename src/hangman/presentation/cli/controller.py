@@ -48,5 +48,5 @@ class CliController(Controller):
     def view_goodbye(self):
         print("\n" + self._localization.get_view_goodbye())
 
-    def view_latter_error(self, latter: str):
-        print(self._localization.get_view_latter_error(latter), end="\r")
+    def view_letter_error(self, letter: str):
+        print(self._localization.get_view_letter_error(letter), end="\r")

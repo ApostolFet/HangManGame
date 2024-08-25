@@ -50,15 +50,15 @@ class Localization(ABC):
     def get_view_goodbye(self) -> str: ...
 
     @abstractmethod
-    def get_view_latter_error(self, latter: str) -> str: ...
+    def get_view_letter_error(self, letter: str) -> str: ...
 
     def _get_mask_word(self, word: str, guessed_indexes: set[int]) -> str:
-        mask_list_latter = [
-            latter if index in guessed_indexes else "*"
-            for index, latter in enumerate(word)
+        mask_list_letter = [
+            letter if index in guessed_indexes else "*"
+            for index, letter in enumerate(word)
         ]
 
-        mask_word = "".join(mask_list_latter)
+        mask_word = "".join(mask_list_letter)
         return mask_word
 
     def _get_view_error(self, count_error: int) -> str:
@@ -88,14 +88,14 @@ class RuLocalization(Localization):
         mask_word = self._get_mask_word(
             game_step.word, game_step.indeces_guessed_letters
         )
-        try_latters = ", ".join(game_step.try_letters)
+        try_letters = ", ".join(game_step.try_letters)
 
         return (
-            view_error + f"\n\nСлово: {mask_word}; Использованные буквы: {try_latters};"
+            view_error + f"\n\nСлово: {mask_word}; Использованные буквы: {try_letters};"
         )
 
-    def get_view_latter_error(self, latter: str):
-        print(f"Невалидный символ <{latter}> или уже использован", end="\r")
+    def get_view_letter_error(self, letter: str):
+        print(f"Невалидный символ <{letter}> или уже использован", end="\r")
 
     def get_view_end_game(self, game_step: GameStep):
         match game_step.game_state:
@@ -134,8 +134,8 @@ class EnLocalization(Localization):
 
         return view_error + f"\n\nWord: {mask_word}; Letters used: {try_letters};"
 
-    def get_view_latter_error(self, latter: str) -> str:
-        return f"Invalid <{latter}> character or already used"
+    def get_view_letter_error(self, letter: str) -> str:
+        return f"Invalid <{letter}> character or already used"
 
     def get_view_end_game(self, game_step: GameStep):
         match game_step.game_state:
