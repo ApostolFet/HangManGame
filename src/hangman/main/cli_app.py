@@ -1,9 +1,15 @@
 from pathlib import Path
+from string import ascii_letters
 
-from hangman.infrastructure.repo import InMemoryHangmanRepository
-from hangman.infrastructure.word_provider import FileWordProvider
 from hangman.application.interactors import CreateGameInteractor, GuessLaterInteractor
 from hangman.config import Config
+from hangman.infrastructure.letter_validator import (
+    AlphabetLetterValidator,
+    CompositeLetterValidator,
+    LenLetterValidator,
+)
+from hangman.infrastructure.repo import InMemoryHangmanRepository
+from hangman.infrastructure.word_provider import FileWordProvider
 from hangman.presentation.cli.controller import CliController
 from hangman.presentation.cli.game import Game
 from hangman.presentation.cli.views_error import VIEW_ERRORS
@@ -23,20 +29,28 @@ def main():
             localization = RuLocalization(
                 max_error=config.max_errors, views_error=VIEW_ERRORS
             )
+            alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+
         case "en":
             word_provider = FileWordProvider(Path("files/en_words.txt"))
             localization = EnLocalization(
                 max_error=config.max_errors, views_error=VIEW_ERRORS
             )
+
+            alphabet = ascii_letters
         case unsupported_language:
             raise InvalidConfigError(f"Unsupported language {unsupported_language}")
 
     repo = InMemoryHangmanRepository()
     controler = CliController(localization)
 
+    letter_validator = CompositeLetterValidator(
+        (LenLetterValidator(), AlphabetLetterValidator(alphabet)),
+    )
+
     game = Game(
         controller=controler,
-        guess_later_interactor=GuessLaterInteractor(repo),
+        guess_later_interactor=GuessLaterInteractor(repo, letter_validator),
         create_game_interactor=CreateGameInteractor(repo),
         word_provider=word_provider,
         max_errors=config.max_errors,
