@@ -24,12 +24,3 @@ class GameStep:
             game_state=hangman_game.game_state,
             guess=guess,
         )
-
-
-@dataclass
-class CreateHangMan:
-    word: str
-    max_error: int
-
-    def to_hangman(self) -> HangManGame:
-        return HangManGame(self.word, self.max_error)

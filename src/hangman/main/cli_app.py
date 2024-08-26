@@ -51,8 +51,7 @@ def main():
     game = Game(
         controller=controler,
         guess_later_interactor=GuessLaterInteractor(repo, letter_validator),
-        create_game_interactor=CreateGameInteractor(repo),
-        word_provider=word_provider,
+        create_game_interactor=CreateGameInteractor(repo, word_provider),
         max_errors=config.max_errors,
     )
     game.launch()

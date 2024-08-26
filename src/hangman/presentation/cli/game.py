@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from hangman.application.dto import CreateHangMan, GameStep
+from hangman.application.dto import GameStep
 from hangman.application.interactors import CreateGameInteractor, GuessLaterInteractor
 from hangman.application.interfaces.word_provider import WordProvider
 from hangman.domain.entity import GameState
@@ -23,13 +23,11 @@ class Game:
         controller: Controller,
         guess_later_interactor: GuessLaterInteractor,
         create_game_interactor: CreateGameInteractor,
-        word_provider: WordProvider,
         max_errors: int,
     ):
         self._controller = controller
         self._guess_later_interactor = guess_later_interactor
         self._create_game_interactor = create_game_interactor
-        self._word_provider = word_provider
         self._max_errors = max_errors
 
     def launch(self):
@@ -43,21 +41,16 @@ class Game:
 
         is_play_game = True
         while is_play_game:
-            word = self._word_provider.get_random_word()
-            self._start(word)
+            self._start()
 
             is_play_game = self._controller.get_play_again()
 
         self._controller.view_goodbye()
 
-    def _start(
-        self,
-        word: str,
-    ):
-        game_step = self._create_game_interactor(
-            1, CreateHangMan(word=word, max_error=self._max_errors)
-        )
+    def _start(self):
+        game_step = self._create_game_interactor(1, max_error=self._max_errors)
         self._controller.view_game_step(game_step)
+
         while game_step.game_state == GameState.COMING:
             letter = self._controller.get_letter()
             try:
