@@ -127,3 +127,11 @@ def test_hangman_comming_game():
     result_game_states.append(game.game_state)
 
     assert expected_game_states == result_game_states
+
+
+def test_hangman_cant_guess_two_more_letter():
+    game = HangManGame(
+        word="test",
+        max_error=5,
+    )
+    assert not game.guess("te")

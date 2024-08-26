@@ -23,6 +23,7 @@ class HangManGame:
             used_letters = set()
 
         self._used_letters = used_letters
+        self._word_letters = set(self._word)
 
     @property
     def word(self) -> str:
@@ -68,4 +69,4 @@ class HangManGame:
             )
 
         self._used_letters.add(letter)
-        return letter in self._word
+        return letter in self._word_letters
