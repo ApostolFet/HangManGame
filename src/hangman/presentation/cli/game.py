@@ -2,7 +2,6 @@ from typing import Protocol
 
 from hangman.application.dto import GameStep
 from hangman.application.interactors import CreateGameInteractor, GuessLaterInteractor
-from hangman.application.interfaces.word_provider import WordProvider
 from hangman.domain.entity import GameState
 from hangman.domain.exceptions import LetterError
 
