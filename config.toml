@@ -1,2 +1,4 @@
 language = 'en'
 max_errors = 10
+
+token = '<your_token>'
