@@ -1,4 +1,3 @@
-from threading import local
 from dishka.integrations.telebot import FromDishka, inject
 from telebot import TeleBot, types
 from telebot.states.sync.context import StateContext
