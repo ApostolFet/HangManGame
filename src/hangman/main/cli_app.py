@@ -1,7 +1,10 @@
 from pathlib import Path
 from string import ascii_letters
 
-from hangman.application.interactors import CreateGameInteractor, GuessLaterInteractor
+from hangman.application.interactors import (
+    CreateGameInteractor,
+    GuessLeterInteractor,
+)
 from hangman.config import Config
 from hangman.infrastructure.letter_validator import (
     AlphabetLetterValidator,
@@ -50,9 +53,10 @@ def main():
 
     game = Game(
         controller=controler,
-        guess_later_interactor=GuessLaterInteractor(repo, letter_validator),
-        create_game_interactor=CreateGameInteractor(repo, word_provider),
-        max_errors=config.max_errors,
+        guess_later_interactor=GuessLeterInteractor(repo, letter_validator),
+        create_game_interactor=CreateGameInteractor(
+            repo, word_provider, config.max_errors
+        ),
     )
     game.launch()
 

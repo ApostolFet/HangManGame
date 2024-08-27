@@ -22,12 +22,10 @@ class Game:
         controller: Controller,
         guess_later_interactor: GuessLaterInteractor,
         create_game_interactor: CreateGameInteractor,
-        max_errors: int,
     ):
         self._controller = controller
         self._guess_later_interactor = guess_later_interactor
         self._create_game_interactor = create_game_interactor
-        self._max_errors = max_errors
 
     def launch(self):
         try:
@@ -47,7 +45,7 @@ class Game:
         self._controller.view_goodbye()
 
     def _start(self):
-        game_step = self._create_game_interactor(1, max_error=self._max_errors)
+        game_step = self._create_game_interactor(1)
         self._controller.view_game_step(game_step)
 
         while game_step.game_state == GameState.COMING:

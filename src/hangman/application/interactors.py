@@ -5,7 +5,7 @@ from hangman.application.interfaces.repo import HangManRepository
 from hangman.domain.entity import HangManGame
 
 
-class GuessLaterInteractor:
+class GuessLeterInteractor:
     def __init__(
         self,
         hangman_repo: HangManRepository,
@@ -25,12 +25,18 @@ class GuessLaterInteractor:
 
 
 class CreateGameInteractor:
-    def __init__(self, hangman_repo: HangManRepository, word_provider: WordProvider):
+    def __init__(
+        self,
+        hangman_repo: HangManRepository,
+        word_provider: WordProvider,
+        max_error: int,
+    ):
         self._hangman_repo = hangman_repo
         self._word_provider = word_provider
+        self._max_error = max_error
 
-    def __call__(self, user_id: int, max_error: int) -> GameStep:
+    def __call__(self, user_id: int) -> GameStep:
         word = self._word_provider.get_random_word()
-        hangman_game = HangManGame(word, max_error)
+        hangman_game = HangManGame(word, self._max_error)
         self._hangman_repo.add(user_id, hangman_game)
         return GameStep.from_hangman(hangman_game)
