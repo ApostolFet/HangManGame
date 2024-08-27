@@ -1,7 +1,7 @@
 from typing import Final
 
 
-VIEW_ERRORS: Final = [
+VIEW_ERRORS: Final[list[str]] = [
     r"""
      
 
