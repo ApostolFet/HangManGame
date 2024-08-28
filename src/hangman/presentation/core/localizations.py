@@ -88,14 +88,17 @@ class RuLocalization(Localization):
         mask_word = self._get_mask_word(
             game_step.word, game_step.indeces_guessed_letters
         )
-        try_letters = ", ".join(game_step.try_letters)
+        if game_step.try_letters:
+            try_letters = (
+                " Использованные буквы:" + ", ".join(game_step.try_letters) + ";"
+            )
+        else:
+            try_letters = ""
 
-        return (
-            view_error + f"\n\nСлово: {mask_word}; Использованные буквы: {try_letters};"
-        )
+        return view_error + f"\n\nСлово: {mask_word};{try_letters}"
 
     def get_view_letter_error(self, letter: str):
-        print(f"Невалидный символ <{letter}> или уже использован", end="\r")
+        return f"Невалидный символ <{letter}> или уже использован"
 
     def get_view_end_game(self, game_step: GameStep):
         match game_step.game_state:
@@ -130,9 +133,12 @@ class EnLocalization(Localization):
         mask_word = self._get_mask_word(
             game_step.word, game_step.indeces_guessed_letters
         )
-        try_letters = ", ".join(game_step.try_letters)
+        if game_step.try_letters:
+            try_letters = " Letters used: " + ", ".join(game_step.try_letters) + ";"
+        else:
+            try_letters = ""
 
-        return view_error + f"\n\nWord: {mask_word}; Letters used: {try_letters};"
+        return view_error + f"\n\nWord: {mask_word};{try_letters}"
 
     def get_view_letter_error(self, letter: str) -> str:
         return f"Invalid <{letter}> character or already used"
