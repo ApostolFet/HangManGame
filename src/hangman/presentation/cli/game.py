@@ -1,7 +1,7 @@
 from typing import Protocol
 
 from hangman.application.dto import GameStep
-from hangman.application.interactors import CreateGameInteractor, GuessLaterInteractor
+from hangman.application.interactors import CreateGameInteractor, GuessLeterInteractor
 from hangman.domain.entity import GameState
 from hangman.domain.exceptions import LetterError
 
@@ -20,7 +20,7 @@ class Game:
     def __init__(
         self,
         controller: Controller,
-        guess_later_interactor: GuessLaterInteractor,
+        guess_later_interactor: GuessLeterInteractor,
         create_game_interactor: CreateGameInteractor,
     ):
         self._controller = controller
