@@ -13,14 +13,14 @@ from hangman.infrastructure.letter_validator import (
 )
 from hangman.infrastructure.repo import InMemoryHangmanRepository
 from hangman.infrastructure.word_provider import FileWordProvider
-from hangman.presentation.cli.controller import CliController
 from hangman.presentation.cli.game import Game
-from hangman.presentation.cli.views_error import VIEW_ERRORS
-from hangman.presentation.core.localizations import (
-    EnLocalization,
+from hangman.presentation.cli.view import ConsoleView
+from hangman.presentation.common.presenters import (
+    EnglishPresenter,
     InvalidConfigError,
-    RuLocalization,
+    RussianPresenter,
 )
+from hangman.presentation.common.views_error import VIEW_ERRORS
 
 
 def main():
@@ -29,14 +29,14 @@ def main():
     match config.language:
         case "ru":
             word_provider = FileWordProvider(Path("files/ru_words.txt"))
-            localization = RuLocalization(
+            localization = RussianPresenter(
                 max_error=config.max_errors, views_error=VIEW_ERRORS
             )
             alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
 
         case "en":
             word_provider = FileWordProvider(Path("files/en_words.txt"))
-            localization = EnLocalization(
+            localization = EnglishPresenter(
                 max_error=config.max_errors, views_error=VIEW_ERRORS
             )
 
@@ -45,14 +45,14 @@ def main():
             raise InvalidConfigError(f"Unsupported language {unsupported_language}")
 
     repo = InMemoryHangmanRepository()
-    controler = CliController(localization)
+    view = ConsoleView(localization)
 
     letter_validator = CompositeLetterValidator(
         (LenLetterValidator(), AlphabetLetterValidator(alphabet)),
     )
 
     game = Game(
-        controller=controler,
+        view=view,
         guess_later_interactor=GuessLeterInteractor(repo, letter_validator),
         create_game_interactor=CreateGameInteractor(
             repo, word_provider, config.max_errors

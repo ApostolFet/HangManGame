@@ -5,8 +5,8 @@ from telebot.states.sync.context import StateContext
 from hangman.application.interactors import CreateGameInteractor, GuessLeterInteractor
 from hangman.domain.entity import GameState
 from hangman.domain.exceptions import LetterError
-from hangman.presentation.core.localizations import Localization
 from hangman.presentation.bot.states import GameStates
+from hangman.presentation.common.presenters import Presenter
 
 
 @inject
@@ -14,12 +14,12 @@ def start_game(
     message: types.Message,
     bot: TeleBot,
     state: StateContext,
-    localization: FromDishka[Localization],
+    presenter: FromDishka[Presenter],
     create_game_interactor: FromDishka[CreateGameInteractor],
 ):
-    bot.send_message(message.chat.id, localization.get_view_greateing())
+    bot.send_message(message.chat.id, presenter.get_view_greateing())
     game_step = create_game_interactor(message.chat.id)
-    view_game_step = localization.get_view_game_step(game_step)
+    view_game_step = presenter.get_view_game_step(game_step)
     message_sended = bot.send_message(
         message.chat.id,
         f"```hangman\n{view_game_step}\n```",
@@ -35,7 +35,7 @@ def guess_letter(
     message: types.Message,
     bot: TeleBot,
     state: StateContext,
-    localization: FromDishka[Localization],
+    presenter: FromDishka[Presenter],
     guess_interactor: FromDishka[GuessLeterInteractor],
 ):
     user_id = message.chat.id
@@ -50,9 +50,7 @@ def guess_letter(
         state.add_data(delete_message=None)
 
     if letter is None:
-        message_sended = bot.send_message(
-            user_id, localization.get_view_letter_error("")
-        )
+        message_sended = bot.send_message(user_id, presenter.get_view_letter_error(""))
         state.add_data(delete_message=message_sended.id)
         return
 
@@ -60,13 +58,13 @@ def guess_letter(
         game_step = guess_interactor(user_id, letter)
     except LetterError as ex:
         message_sended = bot.send_message(
-            user_id, localization.get_view_letter_error(ex.letter)
+            user_id, presenter.get_view_letter_error(ex.letter)
         )
         state.add_data(delete_message=message_sended.id)
         return
 
-    view_game_step = localization.get_view_game_step(game_step)
-    question_letter = localization.get_question_letter()
+    view_game_step = presenter.get_view_game_step(game_step)
+    question_letter = presenter.get_question_letter()
     telegram_view_game_step = f"```hangman\n{view_game_step}\n```\n{question_letter}"
 
     with state.data() as data:
@@ -90,7 +88,7 @@ def guess_letter(
     if game_step.game_state is GameState.COMING:
         return
 
-    view_end_game = localization.get_view_end_game(game_step)
+    view_end_game = presenter.get_view_end_game(game_step)
 
     bot.send_message(user_id, view_end_game)
     state.delete()
@@ -101,9 +99,9 @@ def end_game(
     message: types.Message,
     bot: TeleBot,
     state: StateContext,
-    localization: FromDishka[Localization],
+    presenter: FromDishka[Presenter],
 ):
-    bot.send_message(message.chat.id, localization.get_view_goodbye())
+    bot.send_message(message.chat.id, presenter.get_view_goodbye())
     state.delete()
 
 

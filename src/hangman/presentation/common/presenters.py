@@ -16,7 +16,7 @@ class QuestionPlayAgain:
     negative_variants: set[str]
 
 
-class Localization(ABC):
+class Presenter(ABC):
     def __init__(
         self,
         views_error: list[str],
@@ -65,7 +65,7 @@ class Localization(ABC):
         return self._views_error[-(self._max_error + 1) :][count_error]
 
 
-class RuLocalization(Localization):
+class RussianPresenter(Presenter):
     def get_question_play_again(self) -> QuestionPlayAgain:
         return QuestionPlayAgain(
             question="Играть еще раз  (да/нет): ",
@@ -110,7 +110,7 @@ class RuLocalization(Localization):
                 raise Exception("Unexpected status")
 
 
-class EnLocalization(Localization):
+class EnglishPresenter(Presenter):
     def get_question_play_again(self) -> QuestionPlayAgain:
         return QuestionPlayAgain(
             question="Play again (yes/no): ",

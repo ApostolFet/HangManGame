@@ -20,13 +20,13 @@ from hangman.infrastructure.letter_validator import (
 from hangman.infrastructure.repo import InMemoryHangmanRepository
 from hangman.infrastructure.word_provider import FileWordProvider
 from hangman.presentation.bot.handlers import register_handlers
-from hangman.presentation.cli.views_error import VIEW_ERRORS
-from hangman.presentation.core.localizations import (
-    EnLocalization,
+from hangman.presentation.common.presenters import (
+    EnglishPresenter,
     InvalidConfigError,
-    Localization,
-    RuLocalization,
+    Presenter,
+    RussianPresenter,
 )
+from hangman.presentation.common.views_error import VIEW_ERRORS
 
 
 class RuLocalizationProvider(Provider):
@@ -47,8 +47,8 @@ class RuLocalizationProvider(Provider):
         return letter_validator
 
     @provide
-    def get_localization_provider(self, config: Config) -> Localization:
-        return RuLocalization(views_error=VIEW_ERRORS, max_error=config.max_errors)
+    def get_presenters_provider(self, config: Config) -> Presenter:
+        return RussianPresenter(views_error=VIEW_ERRORS, max_error=config.max_errors)
 
 
 class EnLocalizationProvider(Provider):
@@ -68,8 +68,8 @@ class EnLocalizationProvider(Provider):
         return letter_validator
 
     @provide
-    def get_localization_provider(self, config: Config) -> Localization:
-        return EnLocalization(views_error=VIEW_ERRORS, max_error=config.max_errors)
+    def get_presenters_provider(self, config: Config) -> Presenter:
+        return EnglishPresenter(views_error=VIEW_ERRORS, max_error=config.max_errors)
 
 
 class AdatersProvider(Provider):
