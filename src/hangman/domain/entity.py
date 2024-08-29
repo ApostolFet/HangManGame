@@ -62,6 +62,7 @@ class HangManGame:
         return state
 
     def guess(self, letter: str) -> bool:
+        letter = letter.lower()
         if letter in self._used_letters:
             raise LetterAlredyGuessError(
                 f"Character: '{letter}' has already been used before",

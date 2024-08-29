@@ -135,3 +135,17 @@ def test_hangman_cant_guess_two_more_letter():
         max_error=5,
     )
     assert not game.guess("te")
+
+
+def test_hangman_guess_case_sensitivity():
+    game = HangManGame(
+        word="test",
+        max_error=5,
+    )
+
+    upper_case_result = game.guess("T")
+    lower_case_result = game.guess("e")
+
+    assert all((upper_case_result, lower_case_result))
+    with pytest.raises(LetterAlredyGuessError):
+        game.guess("t")
