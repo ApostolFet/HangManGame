@@ -30,6 +30,10 @@ class HangManGame:
         return self._word
 
     @property
+    def max_error(self) -> int:
+        return self._max_error
+
+    @property
     def used_letters(self) -> set[str]:
         return self._used_letters
 
