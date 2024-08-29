@@ -44,6 +44,9 @@ class Presenter(ABC):
     def get_view_game_step(self, game_step: GameStep) -> str: ...
 
     @abstractmethod
+    def get_view_hangman(self, game_step: GameStep) -> str: ...
+
+    @abstractmethod
     def get_view_end_game(self, game_step: GameStep) -> str: ...
 
     @abstractmethod
@@ -84,7 +87,6 @@ class RussianPresenter(Presenter):
         return "Спасибо за игру приходите еще"
 
     def get_view_game_step(self, game_step: GameStep) -> str:
-        view_error = self._get_view_error(game_step.count_error)
         mask_word = self._get_mask_word(
             game_step.word, game_step.indeces_guessed_letters
         )
@@ -95,7 +97,11 @@ class RussianPresenter(Presenter):
         else:
             try_letters = ""
 
-        return view_error + f"\n\nСлово: {mask_word};{try_letters}"
+        return f"Слово: {mask_word};{try_letters}"
+
+    def get_view_hangman(self, game_step: GameStep) -> str:
+        view_error = self._get_view_error(game_step.count_error)
+        return view_error
 
     def get_view_letter_error(self, letter: str):
         return f"Невалидный символ <{letter}> или уже использован"
@@ -129,7 +135,6 @@ class EnglishPresenter(Presenter):
         return "Thanks for the game, come again."
 
     def get_view_game_step(self, game_step: GameStep) -> str:
-        view_error = self._get_view_error(game_step.count_error)
         mask_word = self._get_mask_word(
             game_step.word, game_step.indeces_guessed_letters
         )
@@ -138,7 +143,11 @@ class EnglishPresenter(Presenter):
         else:
             try_letters = ""
 
-        return view_error + f"\n\nWord: {mask_word};{try_letters}"
+        return f"Word: {mask_word};{try_letters}"
+
+    def get_view_hangman(self, game_step: GameStep) -> str:
+        view_error = self._get_view_error(game_step.count_error)
+        return view_error
 
     def get_view_letter_error(self, letter: str) -> str:
         return f"Invalid <{letter}> character or already used"

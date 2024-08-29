@@ -34,7 +34,9 @@ class ConsoleView(View):
     def view_game_step(self, game: GameStep) -> None:
         clear()
         print(
-            self._presenter.get_view_game_step(game),
+            self._presenter.get_view_hangman(game)
+            + "\n\n"
+            + self._presenter.get_view_game_step(game),
             end="\n",
         )
 
