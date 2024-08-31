@@ -4,11 +4,9 @@ After=network.target
 
 
 [Service]
-Environment="PATH=<your venv path>/bin:$PATH"
 WorkingDirectory=<your project path>
-ExecStart=hangman-bot
+ExecStart=<your venv path>/bin/hangman-bot
 Restart=on-failure
-User=<your user name>
 
 
 [Install]
