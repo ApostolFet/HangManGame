@@ -1,0 +1,15 @@
+[Unit]
+Description=HangMan Telegram Bot
+After=network.target
+
+
+[Service]
+Environment="PATH=<your venv path>/bin:$PATH"
+WorkingDirectory=<your project path>
+ExecStart=hangman-bot
+Restart=on-failure
+User=<your user name>
+
+
+[Install]
+WantedBy=default.target
