@@ -24,7 +24,7 @@ def start_game(
     view_hangman = presenter.get_view_hangman(game_step)
     question_letter = presenter.get_question_letter()
     telegram_view_game_step = (
-        f"```hangman\n{view_hangman}\n```{view_game_step}\n{question_letter}"
+        f"```hangman\n{view_hangman}\n```\n{view_game_step}\n{question_letter}"
     )
 
     message_sended = bot.send_message(
@@ -74,7 +74,7 @@ def guess_letter(
     view_hangman = presenter.get_view_hangman(game_step)
     question_letter = presenter.get_question_letter()
     telegram_view_game_step = (
-        f"```hangman\n{view_hangman}\n```{view_game_step}\n{question_letter}"
+        f"```hangman\n{view_hangman}\n```\n{view_game_step}\n{question_letter}"
     )
 
     with state.data() as data:
