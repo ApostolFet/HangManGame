@@ -1,11 +1,9 @@
+from collections.abc import Iterator
 from pathlib import Path
+from sqlite3 import Connection, connect
 from string import ascii_letters
 
-import telebot
-from dishka import Provider, Scope, from_context, make_container, provide
-from dishka.integrations.telebot import setup_dishka
-from telebot import custom_filters
-from telebot.states.sync.middleware import StateMiddleware
+from dishka import Provider, Scope, from_context, provide
 
 from hangman.application.interactors import CreateGameInteractor, GuessLeterInteractor
 from hangman.application.interfaces.letter_validator import LetterValidator
@@ -19,7 +17,6 @@ from hangman.infrastructure.letter_validator import (
     LenLetterValidator,
 )
 from hangman.infrastructure.word_provider import FileWordProvider
-from hangman.presentation.bot.handlers import register_handlers
 from hangman.presentation.common.presenters import (
     EnglishPresenter,
     InvalidConfigError,
@@ -73,7 +70,18 @@ class EnLocalizationProvider(Provider):
 
 
 class AdatersProvider(Provider):
-    scope = Scope.APP
+    scope = Scope.REQUEST
+
+    @provide
+    def get_connection(self, config: Config) -> Iterator[Connection]:
+        if config.db_path is None:
+            raise InvalidConfigError("No db_path specified for sqlite")
+        connection = connect(config.db_path)
+        try:
+            yield connection
+        finally:
+            connection.close()
+
     repo = provide(SqliteHangManRepository, provides=HangManRepository)
 
 
@@ -90,44 +98,3 @@ class InteractorProvider(Provider):
         config: Config,
     ) -> CreateGameInteractor:
         return CreateGameInteractor(repo, word_provider, config.max_errors)
-
-
-def main():
-    config = Config.load_config()
-    match config.language:
-        case "ru":
-            localization_provider = RuLocalizationProvider()
-        case "en":
-            localization_provider = EnLocalizationProvider()
-        case unsupported_language:
-            raise InvalidConfigError(f"Unsupported language {unsupported_language}")
-
-    if config.token is None:
-        raise InvalidConfigError("No token specified for bot")
-
-    bot = telebot.TeleBot(
-        config.token,
-        use_class_middlewares=True,
-    )
-    bot.add_custom_filter(custom_filters.StateFilter(bot))
-
-    bot.setup_middleware(StateMiddleware(bot))
-
-    register_handlers(bot)
-
-    containter = make_container(
-        localization_provider,
-        AdatersProvider(),
-        InteractorProvider(),
-        context={Config: config},
-    )
-    setup_dishka(containter, bot)
-
-    try:
-        bot.infinity_polling()
-    finally:
-        containter.close()
-
-
-if __name__ == "__main__":
-    main()

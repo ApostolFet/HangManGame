@@ -18,8 +18,9 @@ classifiers = [
 
 [project.scripts]
 hangman-cli = "hangman.main.cli_app:main"
-migrations-up = "hangman.infrastructure.database.migrations.create_hangman_table:up"
-migrations-down = "hangman.infrastructure.database.migrations.create_hangman_table:down"
+hangman-bot = "hangman.main.bot.app:main"
+hangman-migrations-up = "hangman.infrastructure.database.migrations.create_hangman_table:up"
+hangman-migrations-down = "hangman.infrastructure.database.migrations.create_hangman_table:down"
 
 [project.optional-dependencies]
 bot = [
