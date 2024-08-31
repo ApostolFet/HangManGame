@@ -12,12 +12,12 @@ from hangman.application.interfaces.letter_validator import LetterValidator
 from hangman.application.interfaces.repo import HangManRepository
 from hangman.application.interfaces.word_provider import WordProvider
 from hangman.config import Config
+from hangman.infrastructure.database.repo import SqliteHangManRepository
 from hangman.infrastructure.letter_validator import (
     AlphabetLetterValidator,
     CompositeLetterValidator,
     LenLetterValidator,
 )
-from hangman.infrastructure.repo import InMemoryHangmanRepository
 from hangman.infrastructure.word_provider import FileWordProvider
 from hangman.presentation.bot.handlers import register_handlers
 from hangman.presentation.common.presenters import (
@@ -74,7 +74,7 @@ class EnLocalizationProvider(Provider):
 
 class AdatersProvider(Provider):
     scope = Scope.APP
-    repo = provide(InMemoryHangmanRepository, provides=HangManRepository)
+    repo = provide(SqliteHangManRepository, provides=HangManRepository)
 
 
 class InteractorProvider(Provider):
