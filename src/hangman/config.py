@@ -8,6 +8,7 @@ class Config:
     language: Literal["ru", "en"] = "ru"
     max_errors: int = 10
     token: str | None = None
+    db_path: str | None = None
 
     @classmethod
     def load_config(cls, path: str = "config.toml") -> "Config":

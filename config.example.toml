@@ -2,3 +2,5 @@ language = 'en'
 max_errors = 10
 
 token = '<your_bot_token>'
+
+db_path = 'hangman.db'
