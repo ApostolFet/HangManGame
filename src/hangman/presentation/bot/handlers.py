@@ -66,7 +66,9 @@ def guess_letter(
     view_game_step = presenter.get_view_game_step(game_step)
     view_hangman = presenter.get_view_hangman(game_step)
     question_letter = presenter.get_question_letter()
-    telegram_view_game_step = f"```hangman\n{view_game_step}\n```\n{question_letter}"
+    telegram_view_game_step = (
+        f"```hangman\n{view_hangman}\n```{view_game_step}\n{question_letter}"
+    )
 
     with state.data() as data:
         game_step_message_id = data.get("game_step_message_id")
@@ -81,7 +83,7 @@ def guess_letter(
     else:
         message_sended = bot.send_message(
             user_id,
-            f"```hangman\n{view_hangman}\n```\n{view_game_step}\n{question_letter}",
+            telegram_view_game_step,
             parse_mode="Markdown",
         )
         state.add_data(game_step_message_id=message_sended.id)
