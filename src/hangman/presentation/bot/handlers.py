@@ -19,10 +19,17 @@ def start_game(
 ):
     bot.send_message(message.chat.id, presenter.get_view_greateing())
     game_step = create_game_interactor(message.chat.id)
+
     view_game_step = presenter.get_view_game_step(game_step)
+    view_hangman = presenter.get_view_hangman(game_step)
+    question_letter = presenter.get_question_letter()
+    telegram_view_game_step = (
+        f"```hangman\n{view_hangman}\n```{view_game_step}\n{question_letter}"
+    )
+
     message_sended = bot.send_message(
         message.chat.id,
-        f"```hangman\n{view_game_step}\n```",
+        telegram_view_game_step,
         parse_mode="Markdown",
     )
 
