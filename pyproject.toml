@@ -18,6 +18,8 @@ classifiers = [
 
 [project.scripts]
 hangman-cli = "hangman.main.cli_app:main"
+migrations-up = "hangman.infrastructure.database.migrations.create_hangman_table:up"
+migrations-down = "hangman.infrastructure.database.migrations.create_hangman_table:down"
 
 [project.optional-dependencies]
 bot = [
@@ -26,4 +28,5 @@ bot = [
 ]
 test = [
     "pytest==8.3.2",
+    "pytest-repeat==0.9.3"
 ]
