@@ -1,6 +1,7 @@
-from dataclasses import dataclass
-from typing import Literal
 import tomllib
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Literal
 
 
 @dataclass
@@ -12,5 +13,5 @@ class Config:
 
     @classmethod
     def load_config(cls, path: str = "config.toml") -> "Config":
-        with open(path, "rb") as file:
+        with Path(path).open("rb") as file:
             return Config(**tomllib.load(file))

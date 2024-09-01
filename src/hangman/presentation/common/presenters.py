@@ -25,7 +25,8 @@ class Presenter(ABC):
         max_view_error = len(views_error)
         if max_view_error <= max_error:
             raise InvalidConfigError(
-                f"The maximum number of errors ({max_error}) is greater than possible ({max_view_error - 1}) "
+                f"The maximum number of errors ({max_error}) "
+                f"is greater than possible ({max_view_error - 1})",
             )
 
         self._views_error = views_error
@@ -83,12 +84,13 @@ class RussianPresenter(Presenter):
     def get_view_greateing(self) -> str:
         return "Приветствую, Вас в ителлектуальной игре Висeлица"
 
-    def get_view_goodbye(self):
+    def get_view_goodbye(self) -> str:
         return "Спасибо за игру приходите еще"
 
     def get_view_game_step(self, game_step: GameStep) -> str:
         mask_word = self._get_mask_word(
-            game_step.word, game_step.indeces_guessed_letters
+            game_step.word,
+            game_step.indeces_guessed_letters,
         )
         if game_step.try_letters:
             try_letters = (
@@ -103,10 +105,10 @@ class RussianPresenter(Presenter):
         view_error = self._get_view_error(game_step.count_error)
         return view_error
 
-    def get_view_letter_error(self, letter: str):
+    def get_view_letter_error(self, letter: str) -> str:
         return f"Невалидный символ <{letter}> или уже использован"
 
-    def get_view_end_game(self, game_step: GameStep):
+    def get_view_end_game(self, game_step: GameStep) -> str:
         match game_step.game_state:
             case GameState.VICTORY:
                 return "Ура!!! Победа Ваша!!!"
@@ -136,7 +138,8 @@ class EnglishPresenter(Presenter):
 
     def get_view_game_step(self, game_step: GameStep) -> str:
         mask_word = self._get_mask_word(
-            game_step.word, game_step.indeces_guessed_letters
+            game_step.word,
+            game_step.indeces_guessed_letters,
         )
         if game_step.try_letters:
             try_letters = " Letters used: " + ", ".join(game_step.try_letters) + ";"
@@ -152,7 +155,7 @@ class EnglishPresenter(Presenter):
     def get_view_letter_error(self, letter: str) -> str:
         return f"Invalid <{letter}> character or already used"
 
-    def get_view_end_game(self, game_step: GameStep):
+    def get_view_end_game(self, game_step: GameStep) -> str:
         match game_step.game_state:
             case GameState.VICTORY:
                 return "Yay!!! Victory is yours!!!"

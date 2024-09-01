@@ -1,17 +1,17 @@
-import sys
 import os
+import sys
 
 
-def clear_line(n: int):
-    _CURSOR_UP = "\x1b[A"
-    _ERASE_LINE = "\x1b[K"
+def clear_line(n: int) -> None:
+    cursor_up = "\x1b[A"
+    erase_line = "\x1b[K"
 
     for _ in range(n):
-        sys.stdout.write(_CURSOR_UP)
-        sys.stdout.write(_ERASE_LINE)
+        sys.stdout.write(cursor_up)
+        sys.stdout.write(erase_line)
 
 
-def clear():
+def clear() -> None:
     if os.name == "nt":  # For Windows
         os.system("cls")
     else:  # For Linux and MacOS

@@ -1,7 +1,7 @@
 from hangman.application.dto import GameStep
 from hangman.application.interfaces.letter_validator import LetterValidator
-from hangman.application.interfaces.word_provider import WordProvider
 from hangman.application.interfaces.repo import HangManRepository
+from hangman.application.interfaces.word_provider import WordProvider
 from hangman.domain.entity import HangManGame
 
 

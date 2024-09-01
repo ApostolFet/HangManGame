@@ -1,11 +1,10 @@
 import pytest
 
-
-from hangman.domain.entity import HangManGame, GameState
+from hangman.domain.entity import GameState, HangManGame
 from hangman.domain.exceptions import LetterAlredyGuessError
 
 
-def test_hangman_guess_letter():
+def test_hangman_guess_letter() -> None:
     expected_indeces_guessed_letters = {0, 3}
 
     game = HangManGame(
@@ -19,7 +18,7 @@ def test_hangman_guess_letter():
     assert result_indeces_guessed_letters == expected_indeces_guessed_letters
 
 
-def test_hangman_not_guess_letter():
+def test_hangman_not_guess_letter() -> None:
     game = HangManGame(
         word="test",
         max_error=5,
@@ -32,7 +31,7 @@ def test_hangman_not_guess_letter():
     assert not result_indeces_guessed_letters
 
 
-def test_hangman_used_letters():
+def test_hangman_used_letters() -> None:
     expected_used_letter = {"t", "e", "q"}
 
     game = HangManGame(
@@ -46,7 +45,7 @@ def test_hangman_used_letters():
     assert expected_used_letter == result_used_letter
 
 
-def test_hangman_letter_already_guess():
+def test_hangman_letter_already_guess() -> None:
     game = HangManGame(
         word="test",
         max_error=5,
@@ -57,7 +56,7 @@ def test_hangman_letter_already_guess():
         game.guess("t")
 
 
-def test_hangman_count_error():
+def test_hangman_count_error() -> None:
     expected_count_error = 3
 
     game = HangManGame(
@@ -72,7 +71,7 @@ def test_hangman_count_error():
     assert expected_count_error == result_count_error
 
 
-def test_hangman_word():
+def test_hangman_word() -> None:
     expected_word = "test"
 
     game = HangManGame(
@@ -84,7 +83,7 @@ def test_hangman_word():
     assert expected_word == result_word
 
 
-def test_hangman_win_game():
+def test_hangman_win_game() -> None:
     game = HangManGame(
         word="test",
         max_error=5,
@@ -97,7 +96,7 @@ def test_hangman_win_game():
     assert game.game_state is GameState.VICTORY
 
 
-def test_hangman_defeat_game():
+def test_hangman_defeat_game() -> None:
     game = HangManGame(
         word="test",
         max_error=5,
@@ -112,7 +111,7 @@ def test_hangman_defeat_game():
     assert game.game_state is GameState.DEFEAT
 
 
-def test_hangman_comming_game():
+def test_hangman_comming_game() -> None:
     expected_game_states = [GameState.COMING, GameState.COMING, GameState.COMING]
 
     result_game_states = []
@@ -129,7 +128,7 @@ def test_hangman_comming_game():
     assert expected_game_states == result_game_states
 
 
-def test_hangman_cant_guess_two_more_letter():
+def test_hangman_cant_guess_two_more_letter() -> None:
     game = HangManGame(
         word="test",
         max_error=5,
@@ -137,7 +136,7 @@ def test_hangman_cant_guess_two_more_letter():
     assert not game.guess("te")
 
 
-def test_hangman_guess_case_sensitivity():
+def test_hangman_guess_case_sensitivity() -> None:
     game = HangManGame(
         word="test",
         max_error=5,

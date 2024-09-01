@@ -5,7 +5,7 @@ from hangman.domain.exceptions import LetterInvalidError
 
 
 class LenLetterValidator(LetterValidator):
-    def validate(self, letter: str):
+    def validate(self, letter: str) -> None:
         if len(letter) != 1:
             raise LetterInvalidError("Letter must be length equal one", letter=letter)
 
@@ -14,7 +14,7 @@ class AlphabetLetterValidator(LetterValidator):
     def __init__(self, alphabet: Iterable[str]):
         self._alphabet = set(map(str.lower, alphabet))
 
-    def validate(self, letter: str):
+    def validate(self, letter: str) -> None:
         if letter.lower() not in self._alphabet:
             raise LetterInvalidError("Letter not in alphabet", letter=letter)
 
@@ -23,6 +23,6 @@ class CompositeLetterValidator(LetterValidator):
     def __init__(self, validators: Iterable[LetterValidator]):
         self._validators = validators
 
-    def validate(self, letter: str):
+    def validate(self, letter: str) -> None:
         for validator in self._validators:
             validator.validate(letter)

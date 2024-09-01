@@ -1,11 +1,10 @@
 class LetterError(Exception):
     def __init__(
         self,
-        *args,
+        *args: object,
         letter: str,
-        **kwargs,
     ):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args)
         self.letter = letter
 
 

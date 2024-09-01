@@ -1,5 +1,5 @@
+from collections.abc import Iterator
 from sqlite3 import Connection, connect
-from typing import Iterator
 
 import pytest
 

@@ -14,7 +14,9 @@ class GameStep:
 
     @classmethod
     def from_hangman(
-        cls, hangman_game: HangManGame, guess: bool | None = None
+        cls,
+        hangman_game: HangManGame,
+        guess: bool | None = None,
     ) -> "GameStep":
         return cls(
             word=hangman_game.word,

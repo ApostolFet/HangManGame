@@ -1,4 +1,4 @@
-from dishka import make_container
+from dishka import Provider, make_container
 from dishka.integrations.telebot import setup_dishka
 from telebot import TeleBot, custom_filters
 from telebot.states.sync.middleware import StateMiddleware
@@ -16,11 +16,11 @@ from hangman.presentation.common.presenters import (
 )
 
 
-def main():
+def main() -> None:
     config = Config.load_config()
     match config.language:
         case "ru":
-            localization_provider = RuLocalizationProvider()
+            localization_provider: Provider = RuLocalizationProvider()
         case "en":
             localization_provider = EnLocalizationProvider()
         case unsupported_language:

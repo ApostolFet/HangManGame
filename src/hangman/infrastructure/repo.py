@@ -6,7 +6,7 @@ class GameNotFoundError(Exception): ...
 
 
 class InMemoryHangmanRepository(HangManRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._storage: dict[int, HangManGame] = {}
 
     def get(self, user_id: int) -> HangManGame:
@@ -15,5 +15,5 @@ class InMemoryHangmanRepository(HangManRepository):
             raise GameNotFoundError()
         return game
 
-    def add(self, user_id: int, hangman_game: HangManGame):
+    def add(self, user_id: int, hangman_game: HangManGame) -> None:
         self._storage[user_id] = hangman_game

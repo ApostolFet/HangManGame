@@ -21,11 +21,10 @@ class ConsoleView(View):
 
         if user_input.strip().lower() in question.positive_variants:
             return True
-        elif user_input.strip().lower() in question.negative_variants:
+        if user_input.strip().lower() in question.negative_variants:
             return False
-        else:
-            print(question.re_question + "                     ")
-            return self.get_play_again()
+        print(question.re_question + "                     ")
+        return self.get_play_again()
 
     def view_greating(self) -> None:
         print(self._presenter.get_view_greateing())
@@ -44,10 +43,10 @@ class ConsoleView(View):
         print("\n")
         print(self._presenter.get_view_end_game(game))
 
-    def view_goodbye(self):
+    def view_goodbye(self) -> None:
         print("\n")
         print(self._presenter.get_view_goodbye())
 
-    def view_letter_error(self, letter: str):
+    def view_letter_error(self, letter: str) -> None:
         print(self._presenter.get_view_letter_error(letter), end="\r")
         clear_line(1)

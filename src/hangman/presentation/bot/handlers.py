@@ -16,7 +16,7 @@ def start_game(
     state: StateContext,
     presenter: FromDishka[Presenter],
     create_game_interactor: FromDishka[CreateGameInteractor],
-):
+) -> None:
     bot.send_message(message.chat.id, presenter.get_view_greateing())
     game_step = create_game_interactor(message.chat.id)
 
@@ -44,7 +44,7 @@ def guess_letter(
     state: StateContext,
     presenter: FromDishka[Presenter],
     guess_interactor: FromDishka[GuessLeterInteractor],
-):
+) -> None:
     user_id = message.chat.id
     letter = message.text
 
@@ -65,7 +65,8 @@ def guess_letter(
         game_step = guess_interactor(user_id, letter)
     except LetterError as ex:
         message_sended = bot.send_message(
-            user_id, presenter.get_view_letter_error(ex.letter)
+            user_id,
+            presenter.get_view_letter_error(ex.letter),
         )
         state.add_data(delete_message=message_sended.id)
         return
@@ -110,12 +111,12 @@ def end_game(
     bot: TeleBot,
     state: StateContext,
     presenter: FromDishka[Presenter],
-):
+) -> None:
     bot.send_message(message.chat.id, presenter.get_view_goodbye())
     state.delete()
 
 
-def register_handlers(bot: TeleBot):
+def register_handlers(bot: TeleBot) -> None:
     bot.register_message_handler(start_game, commands=["start"], pass_bot=True)
     bot.register_message_handler(
         end_game,

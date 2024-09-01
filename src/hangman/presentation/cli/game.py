@@ -11,7 +11,7 @@ class View(Protocol):
     def get_play_again(self) -> bool: ...
     def view_greating(self) -> None: ...
     def view_game_step(self, game: GameStep) -> None: ...
-    def view_letter_error(self, letter: str): ...
+    def view_letter_error(self, letter: str) -> None: ...
     def view_end_game(self, game: GameStep) -> None: ...
     def view_goodbye(self) -> None: ...
 
@@ -27,13 +27,13 @@ class Game:
         self._guess_later_interactor = guess_later_interactor
         self._create_game_interactor = create_game_interactor
 
-    def launch(self):
+    def launch(self) -> None:
         try:
             self._play()
         except KeyboardInterrupt:
             self._view.view_goodbye()
 
-    def _play(self):
+    def _play(self) -> None:
         self._view.view_greating()
 
         is_play_game = True
@@ -44,7 +44,7 @@ class Game:
 
         self._view.view_goodbye()
 
-    def _start(self):
+    def _start(self) -> None:
         game_step = self._create_game_interactor(1)
         self._view.view_game_step(game_step)
 
