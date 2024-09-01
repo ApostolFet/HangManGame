@@ -14,7 +14,7 @@ class FileWordProvider(WordProvider):
         return random_word
 
     def _get_words(self) -> list[str]:
-        with self._file_path_words.open() as file:
+        with self._file_path_words.open(encoding="utf-8") as file:
             words = [word.strip() for word in file]
 
         return words
