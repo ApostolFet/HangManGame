@@ -39,23 +39,15 @@ nano config.toml
 hangman-migrations-up
 ```
 
-Пример с использованием [пользовательских служб](https://wiki.archlinux.org/title/Systemd_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)/User_(%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9)) (для системных служб команды могут отличаться, также нужно будет добавить `User` в блок [Service])
 
 8. Скопируйте шаблон сервисного файла в директорию, где находятся ваши сервисы.
-
-8.1 Создать папки с пользовательскими службами (если еще не созданы)
   ```sh
-  mkdir ~/.config/systemd
-  mkdir ~/.config/systemd/user
-  ```
-8.2 Скопировать шаблон в папку
-  ```sh
-  cp ./systemd/hangman_bot.service ~/.config/systemd/user/
+  cp ./systemd/hangman_bot.service /etc/systemd/system/
   ```
 
 9. Изменить в шаблоне путь до рабочей категории и до виртуального окружения
   ```sh
-  nano ~/.config/systemd/user/hangman_bot.service
+  nano /etc/systemd/system/hangman_bot.service
   ```
 
 Пример заполненного шаблона:
@@ -72,21 +64,21 @@ Restart=on-failure
 
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 ```
 
 10. После сохранения сервисного файла включите службу
 ```sh
-systemctl --user enable hangman_bot.service
+systemctl enable hangman_bot.service
 ```
 Если вы изменяете сервисный файл, то для обновлния конфигурации нужно выполнить следующую команду
 ```sh
-systemctl --user daemon-reload
+systemctl daemon-reload
 ```
 
 11. Запустите службу: 
 ```sh
-systemctl --user start hangman_bot.service 
+systemctl start hangman_bot.service 
 ```
 
 После запуска службы, бот должен начать корректно работать
@@ -95,11 +87,11 @@ systemctl --user start hangman_bot.service
 
 - Просмотр журнала службы:
 ```sh
-journalctl --user -u hangman_bot.service
+journalctl -u hangman_bot.service
 ```
 
 
 - Просмотр статуса службы:
 ```sh
-systemctl --user status hangman_bot.service
+systemctl status hangman_bot.service
 ```
