@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from enum import Enum, auto
 
 from hangman.domain.exceptions import LetterAlredyGuessError
@@ -14,15 +15,12 @@ class HangManGame:
         self,
         word: str,
         max_error: int,
-        used_letters: set[str] | None = None,
+        used_letters: Iterable[str] = "",
     ):
         self._word = word.lower()
         self._max_error = max_error
 
-        if used_letters is None:
-            used_letters = set()
-
-        self._used_letters = used_letters
+        self._used_letters = dict.fromkeys(used_letters)
         self._word_letters = set(self._word)
 
     @property
@@ -34,8 +32,8 @@ class HangManGame:
         return self._max_error
 
     @property
-    def used_letters(self) -> set[str]:
-        return self._used_letters
+    def used_letters(self) -> list[str]:
+        return list(self._used_letters)
 
     @property
     def indeces_guessed_letters(self) -> set[int]:
@@ -73,5 +71,5 @@ class HangManGame:
                 letter=letter,
             )
 
-        self._used_letters.add(letter)
+        self._used_letters[letter] = None
         return letter in self._word_letters

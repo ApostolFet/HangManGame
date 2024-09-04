@@ -7,7 +7,7 @@ from hangman.domain.entity import GameState, HangManGame
 class GameStep:
     word: str
     indeces_guessed_letters: set[int]
-    try_letters: set[str]
+    try_letters: list[str]
     count_error: int
     game_state: GameState
     guess: bool | None = None

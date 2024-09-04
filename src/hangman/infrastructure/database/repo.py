@@ -25,7 +25,7 @@ class SqliteHangManRepository(HangManRepository):
             raise GameNotFoundError()
 
         word, max_error, used_letters = row_data
-        return HangManGame(word, max_error, set(used_letters))
+        return HangManGame(word, max_error, used_letters)
 
     def add(self, user_id: int, hangman_game: HangManGame) -> None:
         with self._connection as conn, closing(conn.cursor()) as cur:
