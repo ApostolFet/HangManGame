@@ -2,7 +2,6 @@ from collections.abc import Iterator
 from sqlite3 import Connection, connect
 
 import pytest
-
 from hangman.infrastructure.database.migrations.create_hangman_table import upgrade
 
 

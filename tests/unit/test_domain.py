@@ -1,5 +1,4 @@
 import pytest
-
 from hangman.domain.entity import GameState, HangManGame
 from hangman.domain.exceptions import LetterAlredyGuessError
 
@@ -32,7 +31,7 @@ def test_hangman_not_guess_letter() -> None:
 
 
 def test_hangman_used_letters() -> None:
-    expected_used_letter = {"t", "e", "q"}
+    expected_used_letter = ["t", "e", "q"]
 
     game = HangManGame(
         word="test",
@@ -148,3 +147,29 @@ def test_hangman_guess_case_sensitivity() -> None:
     assert all((upper_case_result, lower_case_result))
     with pytest.raises(LetterAlredyGuessError):
         game.guess("t")
+
+
+@pytest.mark.parametrize(
+    "guess_letters",
+    [
+        ("t", "e", "d"),
+        ("e", "d", "t"),
+        ("d", "e", "t"),
+        ("p", "e", "s", "t"),
+        ("d", "a", "y", "s"),
+        ("q", "d", "p"),
+    ],
+)
+def test_hangman_save_order_used_letters(guess_letters: tuple[str]) -> None:
+    game = HangManGame(
+        word="test",
+        max_error=5,
+    )
+    expected_used_letters = "".join(guess_letters)
+
+    for letter in guess_letters:
+        game.guess(letter)
+
+    result = "".join(game.used_letters)
+
+    assert result == expected_used_letters
